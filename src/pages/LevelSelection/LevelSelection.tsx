@@ -25,7 +25,7 @@ export default function LevelSelection({
           </h1>
           
           <h2 className="mt-6 text-2xl font-bold text-slate-700">
-            Обері рівень складності          </h2>
+            Обери рівень складності          </h2>
         </header>
 
         <div className="grid gap-6 sm:grid-cols-2">
