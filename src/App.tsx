@@ -1,3 +1,4 @@
+
 import { useState } from 'react'
 
 import ClassSelection from './pages/ClassSelection/ClassSelection'
@@ -18,8 +19,13 @@ function App() {
   >(null)
 
   const [selectedQuizId, setSelectedQuizId] = useState<string | null>(null)
-
   const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null)
+
+  // Підтримувані класи: від 3-го до 8-го
+  const isSupportedClass =
+    selectedClass !== null &&
+    selectedClass >= 3 &&
+    selectedClass <= 8
 
   const handleBackToClasses = () => {
     setSelectedQuizId(null)
@@ -60,11 +66,14 @@ function App() {
     )
   }
 
-  // Простий рівень — інтерактивні тести
-  if (selectedClass === 4 && selectedLevel === 'easy') {
+  // Перевірка підтримуваних класів
+  if (isSupportedClass && selectedLevel === 'easy') {
+    // Якщо учень обрав тест
     if (selectedQuizId !== null) {
       const selectedQuiz = quizzes.find(
-        (quiz) => quiz.id === selectedQuizId,
+        (quiz) =>
+          quiz.id === selectedQuizId &&
+          quiz.grade === selectedClass,
       )
 
       if (selectedQuiz) {
@@ -77,6 +86,7 @@ function App() {
       }
     }
 
+    // Каталог тестів для обраного класу
     return (
       <QuizSelection
         selectedClass={selectedClass}
@@ -87,10 +97,13 @@ function App() {
   }
 
   // Складний рівень — творчі завдання
-  if (selectedClass === 4 && selectedLevel === 'hard') {
+  if (isSupportedClass && selectedLevel === 'hard') {
+    // Якщо учень обрав творче завдання
     if (selectedTaskId !== null) {
       const selectedTask = hardTasks.find(
-        (task) => task.id === selectedTaskId,
+        (task) =>
+          task.id === selectedTaskId &&
+          task.grade === selectedClass,
       )
 
       if (selectedTask) {
@@ -122,7 +135,7 @@ function App() {
                     Умова завдання
                   </h2>
 
-                  <p className="mt-3 leading-relaxed text-slate-600">
+                  <p className="mt-3 whitespace-pre-line leading-relaxed text-slate-600">
                     {selectedTask.description}
                   </p>
                 </div>
@@ -158,7 +171,7 @@ function App() {
                 </div>
 
                 <p className="mt-6 text-sm text-slate-500">
-                  Виконай роботу окремо від сайту та збережи її у вказаному форматі.
+                  Виконай роботу окремо від сайту та надішли її у вказаному форматі.
                 </p>
               </div>
             </div>
@@ -167,6 +180,7 @@ function App() {
       }
     }
 
+    // Каталог творчих завдань для обраного класу
     return (
       <HardQuizSelection
         selectedClass={selectedClass}
@@ -176,7 +190,7 @@ function App() {
     )
   }
 
-  // Інші класи та рівні
+  // Інші класи або непідтримувані рівні
   return (
     <main className="min-h-screen bg-sky-50 px-4 py-12">
       <div className="mx-auto max-w-3xl text-center">
@@ -196,7 +210,7 @@ function App() {
         </p>
 
         <p className="mt-2 text-xl text-slate-600">
-          Рівень: {selectedLevel === 'easy' ? 'Простий' : 'Складний'}
+          Рівень: {selectedLevel === 'easy' ? 'Легкий' : 'Складний'}
         </p>
 
         <p className="mt-6 text-slate-500">

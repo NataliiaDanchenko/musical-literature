@@ -253,7 +253,7 @@ export default function Quiz({ quiz, onBack }: QuizProps) {
 
                         <p className="mt-4 text-lg text-slate-600">
                             {percentage === 100
-                                ? 'Чудово! Ти справжній знавець осіннього фольклору! 🌟'
+                                ? 'Чудово! Ти справжній знавець! 🌟'
                                 : percentage >= 80
                                     ? 'Дуже гарний результат! Так тримати! 🎉'
                                     : percentage >= 60
