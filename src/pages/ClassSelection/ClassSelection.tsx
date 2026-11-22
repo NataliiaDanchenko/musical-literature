@@ -16,7 +16,7 @@ export default function ClassSelection({
           </h1>
 
           <h2 className="text-2xl font-bold text-slate-600 sm:text-3xl">
-            Обері свій клас
+            Обери свій клас
           </h2>
         </header>
 
