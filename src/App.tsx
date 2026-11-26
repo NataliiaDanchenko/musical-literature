@@ -1,5 +1,5 @@
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import ClassSelection from './pages/ClassSelection/ClassSelection'
 import LevelSelection from './pages/LevelSelection/LevelSelection'
@@ -11,15 +11,63 @@ import Quiz from './components/Quiz/Quiz'
 import { quizzes } from './data/quizzez'
 import { hardTasks } from './data/hardTasks'
 
+type AppState = {
+  selectedClass: number | null
+  selectedLevel: 'easy' | 'hard' | null
+  selectedQuizId: string | null
+  selectedTaskId: string | null
+}
+
+const initialState: AppState = {
+  selectedClass: null,
+  selectedLevel: null,
+  selectedQuizId: null,
+  selectedTaskId: null,
+}
+
 function App() {
-  const [selectedClass, setSelectedClass] = useState<number | null>(null)
+  const [appState, setAppState] = useState<AppState>(() => {
+    return window.history.state?.appState ?? initialState
+  })
 
-  const [selectedLevel, setSelectedLevel] = useState<
-    'easy' | 'hard' | null
-  >(null)
+  const {
+    selectedClass,
+    selectedLevel,
+    selectedQuizId,
+    selectedTaskId,
+  } = appState
 
-  const [selectedQuizId, setSelectedQuizId] = useState<string | null>(null)
-  const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null)
+  // Синхронізація стану з історією браузера
+  useEffect(() => {
+    // Зберігаємо початковий стан поточної сторінки
+    if (!window.history.state?.appState) {
+      window.history.replaceState(
+        { appState: initialState },
+        '',
+      )
+    }
+
+    // Обробка кнопок браузера "Назад" і "Вперед"
+    const handlePopState = (event: PopStateEvent) => {
+      setAppState(event.state?.appState ?? initialState)
+    }
+
+    window.addEventListener('popstate', handlePopState)
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState)
+    }
+  }, [])
+
+  // Перехід із записом нового стану в історію браузера
+  const navigate = (nextState: AppState) => {
+    window.history.pushState(
+      { appState: nextState },
+      '',
+    )
+
+    setAppState(nextState)
+  }
 
   // Підтримувані класи: від 3-го до 8-го
   const isSupportedClass =
@@ -27,31 +75,56 @@ function App() {
     selectedClass >= 3 &&
     selectedClass <= 8
 
+  // Повернення до вибору класу
   const handleBackToClasses = () => {
-    setSelectedQuizId(null)
-    setSelectedTaskId(null)
-    setSelectedLevel(null)
-    setSelectedClass(null)
+    navigate({
+      selectedClass: null,
+      selectedLevel: null,
+      selectedQuizId: null,
+      selectedTaskId: null,
+    })
   }
 
+  // Повернення до вибору рівня
   const handleBackToLevels = () => {
-    setSelectedQuizId(null)
-    setSelectedTaskId(null)
-    setSelectedLevel(null)
+    navigate({
+      ...appState,
+      selectedLevel: null,
+      selectedQuizId: null,
+      selectedTaskId: null,
+    })
   }
 
+  // Повернення до каталогу тестів
   const handleBackToQuizList = () => {
-    setSelectedQuizId(null)
+    navigate({
+      ...appState,
+      selectedQuizId: null,
+    })
   }
 
+  // Повернення до каталогу творчих завдань
   const handleBackToTaskList = () => {
-    setSelectedTaskId(null)
+    navigate({
+      ...appState,
+      selectedTaskId: null,
+    })
   }
 
   // Вибір класу
   if (selectedClass === null) {
     return (
-      <ClassSelection onSelectClass={setSelectedClass} />
+      <ClassSelection
+        onSelectClass={(value) =>
+          navigate({
+            ...appState,
+            selectedClass: value,
+            selectedLevel: null,
+            selectedQuizId: null,
+            selectedTaskId: null,
+          })
+        }
+      />
     )
   }
 
@@ -60,13 +133,20 @@ function App() {
     return (
       <LevelSelection
         selectedClass={selectedClass}
-        onSelectLevel={setSelectedLevel}
+        onSelectLevel={(value) =>
+          navigate({
+            ...appState,
+            selectedLevel: value,
+            selectedQuizId: null,
+            selectedTaskId: null,
+          })
+        }
         onBack={handleBackToClasses}
       />
     )
   }
 
-  // Перевірка підтримуваних класів
+  // Легкий рівень — тести
   if (isSupportedClass && selectedLevel === 'easy') {
     // Якщо учень обрав тест
     if (selectedQuizId !== null) {
@@ -90,7 +170,12 @@ function App() {
     return (
       <QuizSelection
         selectedClass={selectedClass}
-        onSelectQuiz={setSelectedQuizId}
+        onSelectQuiz={(value) =>
+          navigate({
+            ...appState,
+            selectedQuizId: value,
+          })
+        }
         onBack={handleBackToLevels}
       />
     )
@@ -184,7 +269,12 @@ function App() {
     return (
       <HardQuizSelection
         selectedClass={selectedClass}
-        onSelectTask={setSelectedTaskId}
+        onSelectTask={(value) =>
+          navigate({
+            ...appState,
+            selectedTaskId: value,
+          })
+        }
         onBack={handleBackToLevels}
       />
     )

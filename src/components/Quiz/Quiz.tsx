@@ -276,7 +276,11 @@ export default function Quiz({ quiz, onBack }: QuizProps) {
                         </button>
                     </section>
                 )}
-
+                <div className="mt-8 rounded-2xl border-2 border-dashed border-sky-300 bg-sky-50 p-5 text-center">
+                    <p className="text-lg font-semibold text-sky-800">
+                        📸 Сфотографуй результат і надішли викладачу в особисті повідомлення
+                    </p>
+                </div>
             </div>
         </main>
     )

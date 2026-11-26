@@ -2,6 +2,9 @@ import { autumnFolkloreQuiz } from './autumnFolkloreQuiz'
 import type { QuizQuestion } from './autumnFolkloreQuiz'
 import { winterFolkloreQuiz } from './winterFolkloreQuiz'
 import { danceMarchTest } from './danceMarchTest'
+import { songVocalGenres } from './songVocalGenres'
+import { symphonyQuiz } from './simphony'
+import { musicalTheatreGenresQuiz } from './theaterGenres'
 
 export interface QuizData {
     id: string
@@ -40,6 +43,33 @@ export const quizzes: QuizData[] = [
         topic: 'Танець і марш',
         level: 'easy',
         questions: danceMarchTest,
+    },
+    {
+        id: 'song-vocal-test',
+        title: 'Вокальні жанри. Пісня',
+        subject: 'Музична література',
+        grade: 5,
+        topic: 'Вокальні жанри. Пісня',
+        level: 'easy',
+        questions: songVocalGenres,
+    },
+    {
+        id: 'simphony-test',
+        title: 'Симфонія',
+        subject: 'Музична література',
+        grade: 6,
+        topic: 'Симфонія',
+        level: 'easy',
+        questions: symphonyQuiz,
+    },
+       {
+        id: 'theater-test',
+        title: 'Музично-театральні жанри',
+        subject: 'Музична література',
+        grade: 6,
+        topic: 'Музично-театральні жанри',
+        level: 'easy',
+        questions: musicalTheatreGenresQuiz,
     },
 ]
 
