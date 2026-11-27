@@ -5,6 +5,11 @@ import { danceMarchTest } from './danceMarchTest'
 import { songVocalGenres } from './songVocalGenres'
 import { symphonyQuiz } from './simphony'
 import { musicalTheatreGenresQuiz } from './theaterGenres'
+import { schubertQuiz } from './schubert'
+import { chopinQuiz } from './shopin'
+import { ravelQuiz } from './ravel'
+import { debussyQuiz } from './debussi'
+import { gershwinQuiz } from './jazz'
 
 export interface QuizData {
     id: string
@@ -62,7 +67,7 @@ export const quizzes: QuizData[] = [
         level: 'easy',
         questions: symphonyQuiz,
     },
-       {
+    {
         id: 'theater-test',
         title: 'Музично-театральні жанри',
         subject: 'Музична література',
@@ -70,6 +75,51 @@ export const quizzes: QuizData[] = [
         topic: 'Музично-театральні жанри',
         level: 'easy',
         questions: musicalTheatreGenresQuiz,
+    },
+    {
+        id: 'schubert-test',
+        title: 'Життя і творчість Франца Шуберта',
+        subject: 'Музична література',
+        grade: 7,
+        topic: 'Життя і творчість Франца Шуберта',
+        level: 'easy',
+        questions: schubertQuiz,
+    },
+    {
+        id: 'shopin-test',
+        title: 'Життя і творчість Фридерика Шопена',
+        subject: 'Музична література',
+        grade: 7,
+        topic: 'Життя і творчість Фридерика Шопена',
+        level: 'easy',
+        questions: chopinQuiz,
+    },
+    {
+        id: 'debussi-test',
+        title: 'Музичний імпресіонізм. Творчість Клода Дебюссі',
+        subject: 'Музична література',
+        grade: 8,
+        topic: 'Музичний імпресіонізм. Творчість Клода Дебюссі',
+        level: 'easy',
+        questions: debussyQuiz,
+    },
+    {
+        id: 'ravel-test',
+        title: 'Творчість Моріса Равеля',
+        subject: 'Музична література',
+        grade: 8,
+        topic: 'Творчість Моріса Равеля',
+        level: 'easy',
+        questions: ravelQuiz,
+    },
+     {
+        id: 'juzz-test',
+        title: 'Джаз і творчість Джорджа Гершвіна',
+        subject: 'Музична література',
+        grade: 8,
+        topic: 'Джаз і творчість Джорджа Гершвіна',
+        level: 'easy',
+        questions: gershwinQuiz,
     },
 ]
 
